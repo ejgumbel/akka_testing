@@ -4,7 +4,7 @@
     <option name="customLauncherEnabled" value="true" />
     <option name="customLauncherPath" value="C:\Program Files (x86)\sbt\bin\sbt-launch.jar" />
     <option name="customVMEnabled" value="true" />
-    <option name="customVMPath" value="C:/Program Files/Java/jdk1.8.0_201" />
+    <option name="customVMPath" value="$USER_HOME$/Documents/java-1.8.0-openjdk-1.8.0.201-2.b09.redhat.windows.x86_64" />
     <option name="linkedExternalProjectsSettings">
       <SbtProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -19,6 +19,6 @@
         <option name="useAutoImport" value="true" />
       </SbtProjectSettings>
     </option>
-    <option name="maximumHeapSize" value="2048" />
+    <option name="maximumHeapSize" value="1024" />
   </component>
 </project>

@@ -12,16 +12,28 @@ public class InitialConstant implements SurfaceComputer {
         this.constantRate = constantRate; //in mm/hr
     }
 
+    public double getCurrentStorage() {
+        return currentStorage;
+    }
+
+    public double getMaxStorage() {
+        return maxStorage;
+    }
+
+    public double getConstantRate() {
+        return constantRate;
+    }
+
     public double freeStorage() {
         //free storage in mm
-        return maxStorage - currentStorage;
+        return getMaxStorage() - getCurrentStorage();
     }
 
     public double saturatedRunoff(double rainfallRate, double timestepSeconds) {
         //depth of runoff in mm
         //rainfall rate in mm/s
         //timestepSeconds in s
-        double netRate = rainfallRate - (constantRate / CONVERSION);
+        double netRate = rainfallRate - (getConstantRate() / CONVERSION);
         if(netRate < 0) {
             return 0;
         } else {
@@ -39,11 +51,10 @@ public class InitialConstant implements SurfaceComputer {
             return 0;
         } else {
             double netDepth = precipitationDepth - freeStorage();
-            currentStorage = maxStorage;
-            double computedRunoff = netDepth - ((constantRate / CONVERSION) * timestepSeconds);
+            currentStorage = getMaxStorage();
+            double computedRunoff = netDepth - ((getConstantRate() / CONVERSION) * timestepSeconds);
             return Math.max(0d, computedRunoff);
         }
-
     }
 
     @Override
