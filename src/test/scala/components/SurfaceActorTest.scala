@@ -2,7 +2,8 @@ package components
 
 import akka.actor.{ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
-import messages.{EmptyMessage, GetInitialConstantState, InitialConstantInitialized, InitialConstantInitializer}
+import messages.data.InitialConstantInitializer
+import messages.signal.{EmptyMessage, InitialConstantInitialized}
 import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 
 class SurfaceActorTest()

@@ -1,13 +1,9 @@
 import akka.actor.{ActorSystem, Props}
-import components.Surface
-import messages.EmptyMessage
+import managers.SimulationManager
+import messages.signal.{EmptyMessage}
 
 object Main extends App {
   val system = ActorSystem("RunoffComputer")
-  val surfaceActor = system.actorOf(Props[Surface], name = "SurfaceActor")
-
-//  surfaceActor ! EmptyMessage
-
-  system.terminate()
-
+  val simulationActor = system.actorOf(Props[SimulationManager], name = "SimulationManager")
+  simulationActor ! EmptyMessage
 }

@@ -1,8 +1,9 @@
 package components
 
 import akka.actor.Actor
-import computers.{InitialConstant, SurfaceComputer}
-import messages.{EmptyMessage, GetInitialConstantState, InitialConstantInitialized, InitialConstantInitializer}
+import computers.InitialConstant
+import messages.data.{HorizontalWaterFlux, InitialConstantInitializer, VerticalWaterFlux}
+import messages.signal.{EmptyMessage, GetInitialConstantState, InitialConstantInitialized}
 
 class Surface extends Actor {
   private var ic: InitialConstant = new InitialConstant(InitialConstantDefaults.initial,
@@ -12,7 +13,11 @@ class Surface extends Actor {
   def receive = {
     case InitialConstantInitializer(initial, max, rate) =>
       reinitialize(initial, max, rate)
-    case GetInitialConstantState => sender() ! getState()
+    case GetInitialConstantState => context.parent ! getState()
+    case VerticalWaterFlux(depth, timestep) => {
+      context.parent ! computeRunoff(depth, timestep)
+    }
+
     case EmptyMessage => sender() ! EmptyMessage
     case _ => sender() ! "Nothing for this case."
   }
@@ -24,5 +29,10 @@ class Surface extends Actor {
 
   def getState(): InitialConstantState = {
     InitialConstantState(ic.getCurrentStorage(), ic.getMaxStorage(), ic.freeStorage(), ic.getConstantRate())
+  }
+
+  def computeRunoff(depth: Double, timestep: Double): HorizontalWaterFlux = {
+    val computedRunoff: Double = ic.computeRunoffTimestep(depth, timestep)
+    return HorizontalWaterFlux(computedRunoff, timestep)
   }
 }
